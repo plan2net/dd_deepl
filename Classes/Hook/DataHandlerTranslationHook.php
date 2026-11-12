@@ -154,9 +154,12 @@ class DataHandlerTranslationHook
      */
     protected function isNewPageTranslation(string $tableName, $recordId, array $fieldArray): bool
     {
+        $originalUidField = $GLOBALS['TCA']['pages']['ctrl']['origUid'] ?? '';
+
         return $tableName === 'pages' &&
             ($fieldArray['sys_language_uid'] ?? 0) > 0 &&
-            str_starts_with((string)$recordId, 'NEW')
+            str_starts_with((string)$recordId, 'NEW') &&
+            empty($fieldArray[$originalUidField] ?? null)
         ;
     }
 }
